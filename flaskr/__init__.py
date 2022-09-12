@@ -2,7 +2,6 @@
 Module info
 """
 import os
-
 from flask import Flask
 
 def create_app(test_config=None):
@@ -33,3 +32,10 @@ def create_app(test_config=None):
     # Otherwise, throw an OS error
     except OSError:
         pass
+
+    # Create an initial route - '/index' page will return this simple string
+    @app.route('/index')
+    def index():
+        return 'Hello world!'
+
+    return app
