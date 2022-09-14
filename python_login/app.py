@@ -52,10 +52,18 @@ def create_app(test_config=None):
             )
             # Validate, there can only be one
             if cursor:
-                if 0 > cursor.arraysize >= 1:
-                    account = cursor.fetchone()
-                else:
-                    msg = "Incorrect Username/Password"
+                # Assign the account
+                account = cursor.fetchone()
+
+                if account:
+                    # Build session data for later access
+                    session['logged_in'] = True
+                    session['username'] = account['username']
+                    session['email'] = account['email']
+
+                    return "Logged in, awwww yeah!"
+
+                msg += "Incorrect username/password combo"
             else:
                 msg = "Could not connect to database"
 
